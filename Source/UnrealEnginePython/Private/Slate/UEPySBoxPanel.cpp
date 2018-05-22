@@ -11,8 +11,37 @@ static PyObject *py_ue_sbox_panel_clear_children(ue_PySBoxPanel *self, PyObject 
 	Py_RETURN_NONE;
 }
 
+static PyObject *py_ue_sbox_panel_remove_slot(ue_PySBoxPanel *self, PyObject * args)
+{
+	ue_py_slate_cast(SBoxPanel);
+
+	PyObject* py_widget;
+
+	if (!PyArg_ParseTuple(args, "O", &py_widget))
+	{
+		unreal_engine_py_log_error();
+		return Py_None;
+	}
+
+	TSharedPtr<SWidget> Widget = py_ue_is_swidget<SWidget>(py_widget);
+
+	if (!Widget.IsValid())
+	{
+		Py_DECREF(py_widget);
+		//UE_LOG(LogPython, Error, TEXT("returned value is not a SWidget"));
+		PyErr_Clear();
+		return Py_None;
+	}
+
+	//self->s_panel.s_widget.py_swidget_slots.Remove(py_swidget);
+	py_SBoxPanel->RemoveSlot(Widget.ToSharedRef());
+	
+	return Py_None;
+}
+
 static PyMethodDef ue_PySBoxPanel_methods[] = {
 	{ "clear_children", (PyCFunction)py_ue_sbox_panel_clear_children, METH_VARARGS, "" },
+	{ "remove_slot", (PyCFunction)py_ue_sbox_panel_remove_slot, METH_VARARGS, "" },
 	{ NULL }  /* Sentinel */
 };
 
