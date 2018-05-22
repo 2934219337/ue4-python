@@ -11,3 +11,5 @@ PyObject *py_ue_data_table_as_dict(ue_PyUObject *, PyObject *);
 PyObject *py_ue_data_table_as_json(ue_PyUObject *, PyObject *);
 PyObject *py_ue_data_table_find_row(ue_PyUObject *, PyObject *);
 PyObject *py_ue_data_table_get_all_rows(ue_PyUObject *, PyObject *);
+PyObject *py_ue_data_table_get_struct(ue_PyUObject *, PyObject *);
+PyObject *py_ue_data_table_get_struct_name(ue_PyUObject *, PyObject *);

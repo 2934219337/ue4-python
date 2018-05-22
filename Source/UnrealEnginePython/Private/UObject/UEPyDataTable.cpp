@@ -180,4 +180,29 @@ PyObject *py_ue_data_table_get_all_rows(ue_PyUObject * self, PyObject * args)
 	return py_list;
 }
 
+PyObject* py_ue_data_table_get_struct(ue_PyUObject * self, PyObject * args)
+{
+	ue_py_check(self);
+
+	UDataTable *data_table = ue_py_check_type<UDataTable>(self);
+	if (!data_table)
+		return PyErr_Format(PyExc_Exception, "uobject is not a UDataTable");
+
+	uint8 *data = (uint8*)FMemory::Malloc(data_table->RowStruct->GetStructureSize());
+	data_table->RowStruct->InitializeStruct(data);
+
+	return py_ue_new_uscriptstruct(data_table->RowStruct, data);
+}
+
+PyObject* py_ue_data_table_get_struct_name(ue_PyUObject * self, PyObject * args)
+{
+	ue_py_check(self);
+
+	UDataTable *data_table = ue_py_check_type<UDataTable>(self);
+	if (!data_table)
+		return PyErr_Format(PyExc_Exception, "uobject is not a UDataTable");
+
+	return PyUnicode_FromString(TCHAR_TO_UTF8(*data_table->GetRowStructName().ToString()));
+}
+
 #endif
