@@ -31,10 +31,51 @@ static PyObject *py_ue_svertical_box_num_slots(ue_PySVerticalBox *self, PyObject
 	return PyLong_FromLong(py_SVerticalBox->NumSlots());
 }
 
+static PyObject *py_ue_shorizontal_box_move_child(ue_PySVerticalBox *self, PyObject * args)
+{
+	ue_py_slate_cast(SVerticalBox);
+
+	int src_child_id;
+	int dst_child_id;
+
+	if (!PyArg_ParseTuple(args, "ii", &src_child_id, &dst_child_id))
+	{
+		return NULL;
+	}
+
+	TPanelChildren<SVerticalBox::FSlot>* children = (TPanelChildren<SVerticalBox::FSlot>*) py_SVerticalBox->GetChildren();
+
+	if (src_child_id < 0 || src_child_id > children->Num()) {
+		return PyErr_Format(PyExc_Exception, "invalid source slot id");
+	}
+
+	if (dst_child_id < 0 || dst_child_id > children->Num()) {
+		return PyErr_Format(PyExc_Exception, "invalid destination slot id");
+	}
+
+	SVerticalBox::FSlot& fslot = (*children)[src_child_id];
+	TSharedRef<SWidget> swidget = fslot.GetWidget();
+
+	SVerticalBox::FSlot& new_fslot = py_SVerticalBox->InsertSlot(dst_child_id);
+
+	new_fslot.SizeParam = fslot.SizeParam;
+	new_fslot.HAlignment = fslot.HAlignment;
+	new_fslot.VAlignment = fslot.VAlignment;
+	new_fslot.MaxSize = fslot.MaxSize;
+	new_fslot.SlotPadding = fslot.SlotPadding;
+
+	py_SVerticalBox->RemoveSlot(swidget);
+
+	new_fslot.AttachWidget(swidget);
+
+	return Py_None;
+}
+
 static PyMethodDef ue_PySVerticalBox_methods[] = {
 #pragma warning(suppress: 4191)
 	{ "add_slot", (PyCFunction)py_ue_svertical_box_add_slot, METH_VARARGS | METH_KEYWORDS, "" },
 	{ "num_slots", (PyCFunction)py_ue_svertical_box_num_slots, METH_VARARGS, "" },
+	{ "move_child", (PyCFunction)py_ue_shorizontal_box_move_child, METH_VARARGS, "" },
 	{ NULL }  /* Sentinel */
 };
 

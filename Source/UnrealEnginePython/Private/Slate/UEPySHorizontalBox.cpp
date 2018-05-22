@@ -25,6 +25,46 @@ static PyObject *py_ue_shorizontal_box_add_slot(ue_PySHorizontalBox *self, PyObj
 	Py_RETURN_SLATE_SELF;
 }
 
+static PyObject *py_ue_shorizontal_box_move_child(ue_PySHorizontalBox *self, PyObject * args)
+{
+	ue_py_slate_cast(SHorizontalBox);
+
+	int src_child_id;
+	int dst_child_id;
+
+	if (!PyArg_ParseTuple(args, "ii", &src_child_id, &dst_child_id))
+	{
+		return NULL;
+	}
+
+	TPanelChildren<SHorizontalBox::FSlot>* children = (TPanelChildren<SHorizontalBox::FSlot>*) py_SHorizontalBox->GetChildren();
+
+	if (src_child_id < 0 || src_child_id > children->Num()) {
+		return PyErr_Format(PyExc_Exception, "invalid source slot id");
+	}
+
+	if (dst_child_id < 0 || dst_child_id > children->Num()) {
+		return PyErr_Format(PyExc_Exception, "invalid destination slot id");
+	}
+
+	SHorizontalBox::FSlot& fslot = (*children)[src_child_id];
+	TSharedRef<SWidget> swidget = fslot.GetWidget();
+
+	SHorizontalBox::FSlot& new_fslot = py_SHorizontalBox->InsertSlot(dst_child_id);
+
+	new_fslot.SizeParam = fslot.SizeParam;
+	new_fslot.HAlignment = fslot.HAlignment;
+	new_fslot.VAlignment = fslot.VAlignment;
+	new_fslot.MaxSize = fslot.MaxSize;
+	new_fslot.SlotPadding = fslot.SlotPadding;
+
+	py_SHorizontalBox->RemoveSlot(swidget);
+
+	new_fslot.AttachWidget(swidget);
+
+	return Py_None;
+}
+
 static PyObject *py_ue_shorizontal_box_num_slots(ue_PySHorizontalBox *self, PyObject * args)
 {
 	ue_py_slate_cast(SHorizontalBox);
@@ -35,6 +75,7 @@ static PyMethodDef ue_PySHorizontalBox_methods[] = {
 #pragma warning(suppress: 4191)
 	{ "add_slot", (PyCFunction)py_ue_shorizontal_box_add_slot, METH_VARARGS | METH_KEYWORDS, "" },
 	{ "num_slots", (PyCFunction)py_ue_shorizontal_box_num_slots, METH_VARARGS, "" },
+	{ "move_child", (PyCFunction)py_ue_shorizontal_box_move_child, METH_VARARGS, "" },
 	{ NULL }  /* Sentinel */
 };
 
