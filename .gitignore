@@ -92,3 +92,6 @@ Binaries/
 python35/
 python27/
 *.un~
+
+# Ignore all differences in line endings
+*	-crlf
