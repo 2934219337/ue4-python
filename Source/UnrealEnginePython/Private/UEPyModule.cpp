@@ -38,6 +38,9 @@
 #include "UObject/UEPyExporter.h"
 #include "UObject/UEPyFoliage.h"
 
+// DNE EDIT (FC)
+#include "UObject/UEPyDNEMetadata.h"
+// DNE EDIT END
 
 #include "UEPyAssetUserData.h"
 #if WITH_EDITOR
@@ -681,6 +684,9 @@ static PyMethodDef ue_PyUObject_methods[] = {
 	{ "data_table_as_json", (PyCFunction)py_ue_data_table_as_json, METH_VARARGS, "" },
 	{ "data_table_find_row", (PyCFunction)py_ue_data_table_find_row, METH_VARARGS, "" },
 	{ "data_table_get_all_rows", (PyCFunction)py_ue_data_table_get_all_rows, METH_VARARGS, "" },
+	{ "data_table_get_struct", (PyCFunction)py_ue_data_table_get_struct, METH_VARARGS, "" },
+	{ "data_table_get_struct_name", (PyCFunction)py_ue_data_table_get_struct_name, METH_VARARGS, "" },
+
 #endif
 
 	{ "export_to_file", (PyCFunction)py_ue_export_to_file, METH_VARARGS, "" },
@@ -1153,6 +1159,12 @@ static PyMethodDef ue_PyUObject_methods[] = {
 	{ "to_bytes", (PyCFunction)py_ue_to_bytes, METH_VARARGS, "" },
 	{ "to_bytearray", (PyCFunction)py_ue_to_bytearray, METH_VARARGS, "" },
 	{ "from_bytes", (PyCFunction)py_ue_from_bytes, METH_VARARGS, "" },
+
+	// DNEMetadata
+#if WITH_EDITOR
+	{ "add_dnemetadata_to_object", (PyCFunction)py_ue_add_dnemetadata_to_object, METH_VARARGS, "" },
+#endif
+
 	{ NULL }  /* Sentinel */
 };
 
