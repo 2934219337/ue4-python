@@ -387,7 +387,7 @@ PyObject *py_ue_set_material_texture_parameter(ue_PyUObject *self, PyObject * ar
 	Py_RETURN_NONE;
 }
 
-PyObject *py_ue_get_all_texture_parameter_names(ue_PyUObject *self, PyObject * args) {
+PyObject *py_ue_get_material_texture_parameter_names(ue_PyUObject *self, PyObject * args) {
 	ue_py_check(self);
 
 	//UMaterial *material = (UMaterial *)self->ue_object;
