@@ -366,6 +366,20 @@ bool FPythonSlateDelegate::OnShouldFilterAsset(const FAssetData& AssetData)
 	return bValue;
 }
 
+// DNE START
+void FPythonSlateDelegate::AssetDropped(UObject* uobj)
+{
+	FScopePythonGIL gil;
+
+	PyObject *ret = PyObject_CallFunction(py_callable, (char *)"O", ue_get_python_uobject(uobj));
+	if (!ret)
+	{
+		unreal_engine_py_log_error();
+	}
+	Py_XDECREF(ret);
+}
+// DNE END
+
 TSharedPtr<SWidget> FPythonSlateDelegate::OnGetAssetContextMenu(const TArray<FAssetData>& SelectedAssets)
 {
 	FScopePythonGIL gil;

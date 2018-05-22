@@ -41,6 +41,7 @@ PyTypeObject ue_PySAssetDropTargetType = {
 static int ue_py_sasset_drop_target_init(ue_PySAssetDropTarget *self, PyObject *args, PyObject *kwargs)
 {
 	ue_py_slate_setup_farguments(SAssetDropTarget);
+	ue_py_slate_farguments_event("on_asset_dropped", OnAssetDropped, SAssetDropTarget::FOnAssetDropped, AssetDropped);
 
 	ue_py_snew(SAssetDropTarget);
 	return 0;

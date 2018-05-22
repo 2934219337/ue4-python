@@ -47,6 +47,10 @@ public:
 	void MenuPyAssetBuilder(FMenuBuilder &Builder, TArray<FAssetData> SelectedAssets);
 	void OnAssetChanged(const FAssetData &AssetData);
 	bool OnShouldFilterAsset(const FAssetData& AssetData);
+	
+	// DNE START
+	void AssetDropped(UObject* uobj);
+	// DNE END
 #endif
 
 	void OnWindowClosed(const TSharedRef<SWindow> &Window);
