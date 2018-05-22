@@ -198,7 +198,10 @@ public class UnrealEnginePython : ModuleRules
                 "Persona",
                 "PropertyEditor",
                 "LandscapeEditor",
-                "MaterialEditor"
+                "MaterialEditor",
+                // DNE (FC)
+                "DNEEditor",
+                // END DNE
             });
         }
 
