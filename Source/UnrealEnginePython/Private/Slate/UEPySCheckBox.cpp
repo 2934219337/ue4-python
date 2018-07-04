@@ -44,8 +44,6 @@ static PyObject *py_ue_scheck_box_set_content(ue_PySCheckBox *self, PyObject * a
 		return nullptr;
 	}
 
-
-
 	py_SCheckBox->SetContent(child.ToSharedRef());
 
 	Py_RETURN_SLATE_SELF;
