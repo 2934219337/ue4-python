@@ -1,4 +1,4 @@
-#include "UEPyModule.h"
+﻿#include "UEPyModule.h"
 
 #include "UEPyEngine.h"
 #include "UEPyTimer.h"
@@ -683,6 +683,7 @@ static PyMethodDef ue_PyUObject_methods[] = {
 	{ "data_table_as_dict", (PyCFunction)py_ue_data_table_as_dict, METH_VARARGS, "" },
 	{ "data_table_as_json", (PyCFunction)py_ue_data_table_as_json, METH_VARARGS, "" },
 	{ "data_table_find_row", (PyCFunction)py_ue_data_table_find_row, METH_VARARGS, "" },
+	{ "data_table_set_row", (PyCFunction)py_ue_data_table_set_row, METH_VARARGS, "" },
 	{ "data_table_get_all_rows", (PyCFunction)py_ue_data_table_get_all_rows, METH_VARARGS, "" },
 	{ "data_table_get_struct", (PyCFunction)py_ue_data_table_get_struct, METH_VARARGS, "" },
 	{ "data_table_get_struct_name", (PyCFunction)py_ue_data_table_get_struct_name, METH_VARARGS, "" },
@@ -2084,6 +2085,16 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		{
 			Py_RETURN_UOBJECT(value);
 		}
+		// DNE BEGIN (FCL)
+		else {	// If the object is not loaded, return a string with its path
+			FAssetPtr& asset = *(FAssetPtr*)buffer;
+			if (!asset.IsStale()) {
+				FString path = asset.ToString();
+				return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
+			}
+		}
+		// END DNE
+
 		Py_RETURN_NONE;
 	}
 
