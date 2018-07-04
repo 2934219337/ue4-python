@@ -161,6 +161,53 @@ PyObject *py_ue_data_table_find_row(ue_PyUObject * self, PyObject * args)
 	return py_ue_new_owned_uscriptstruct(data_table->RowStruct, *data);
 }
 
+PyObject *py_ue_data_table_set_row(ue_PyUObject * self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	char *name;
+	PyObject *py_row;
+
+	if (!PyArg_ParseTuple(args, "sO:data_table_set_row", &name, &py_row))
+	{
+		return nullptr;
+	}
+
+	UDataTable *data_table = ue_py_check_type<UDataTable>(self);
+	if (!data_table)
+		return PyErr_Format(PyExc_Exception, "uobject is not a UDataTable");
+
+	ue_PyUScriptStruct *u_struct = py_ue_is_uscriptstruct(py_row);
+	if (!u_struct)
+		return PyErr_Format(PyExc_Exception, "argument is not a UScriptStruct");
+
+	if (data_table->RowStruct != u_struct->u_struct)
+	{
+		return PyErr_Format(PyExc_Exception, "argument is not a %s", TCHAR_TO_UTF8(*data_table->RowStruct->GetName()));
+	}
+	
+	uint8 **data = nullptr;
+	data = data_table->RowMap.Find(FName(UTF8_TO_TCHAR(name)));
+	if (!data)
+	{
+		return PyErr_Format(PyExc_Exception, "key not found in UDataTable");
+	}
+
+	if (!data)
+		return PyErr_Format(PyExc_Exception, "unable to set row");
+
+	data_table->Modify();
+
+	//*data = (uint8*)FMemory::Malloc(u_struct->u_struct->GetStructureSize());
+	u_struct->u_struct->InitializeStruct(*data);
+	u_struct->u_struct->CopyScriptStruct(*data, u_struct->data);
+
+	Py_RETURN_NONE;
+
+}
+
+
 PyObject *py_ue_data_table_get_all_rows(ue_PyUObject * self, PyObject * args)
 {
 
