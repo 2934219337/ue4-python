@@ -21,7 +21,9 @@ public class UnrealEnginePython : ModuleRules
         "C:/Program Files/Python37",
         "C:/Program Files/Python36",
         "C:/Program Files/Python35",
+        // DNE (FC)
         "C:/Python27-64",
+        // END DNE
         "C:/Python27",
         "C:/IntelPython35"
     };
@@ -200,9 +202,9 @@ public class UnrealEnginePython : ModuleRules
                 "PropertyEditor",
                 "LandscapeEditor",
                 "MaterialEditor",
-                // DNE (FC)
-                "DNEEditor",
-                // END DNE
+                // DNE (FC) 
+                "DNEEditor", 
+                // END DNE 
             });
         }
 
