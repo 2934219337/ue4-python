@@ -201,7 +201,7 @@ PyObject *py_ue_data_table_set_row(ue_PyUObject * self, PyObject * args)
 
 	//*data = (uint8*)FMemory::Malloc(u_struct->u_struct->GetStructureSize());
 	u_struct->u_struct->InitializeStruct(*data);
-	u_struct->u_struct->CopyScriptStruct(*data, u_struct->data);
+	u_struct->u_struct->CopyScriptStruct(*data, u_struct->u_struct_ptr);
 
 	Py_RETURN_NONE;
 
