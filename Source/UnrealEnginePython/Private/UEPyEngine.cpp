@@ -679,6 +679,36 @@ PyObject *py_unreal_engine_all_classes(PyObject * self, PyObject * args)
 	return ret;
 }
 
+PyObject *py_unreal_engine_all_enums(PyObject * self, PyObject * args)
+{
+
+	PyObject *ret = PyList_New(0);
+
+	for (TObjectIterator<UEnum> Itr; Itr; ++Itr)
+	{
+		ue_PyUObject *py_obj = ue_get_python_uobject(*Itr);
+		if (!py_obj)
+			continue;
+		PyList_Append(ret, (PyObject *)py_obj);
+	}
+	return ret;
+}
+
+PyObject *py_unreal_engine_all_structs(PyObject * self, PyObject * args)
+{
+
+	PyObject *ret = PyList_New(0);
+
+	for (TObjectIterator<UScriptStruct> Itr; Itr; ++Itr)
+	{
+		ue_PyUObject *py_obj = ue_get_python_uobject(*Itr);
+		if (!py_obj)
+			continue;
+		PyList_Append(ret, (PyObject *)py_obj);
+	}
+	return ret;
+}
+
 PyObject *py_unreal_engine_all_worlds(PyObject * self, PyObject * args)
 {
 	PyObject *ret = PyList_New(0);

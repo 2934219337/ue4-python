@@ -51,6 +51,8 @@ PyObject *py_unreal_engine_get_delta_time(PyObject *, PyObject *);
 PyObject *py_unreal_engine_tick_rendering_tickables(PyObject *, PyObject *);
 
 PyObject *py_unreal_engine_all_classes(PyObject *, PyObject *);
+PyObject *py_unreal_engine_all_enums(PyObject *, PyObject *);
+PyObject *py_unreal_engine_all_structs(PyObject *, PyObject *);
 PyObject *py_unreal_engine_all_worlds(PyObject *, PyObject *);
 PyObject *py_unreal_engine_tobject_iterator(PyObject *, PyObject *);
 
