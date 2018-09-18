@@ -1,4 +1,4 @@
-﻿#include "UEPyModule.h"
+#include "UEPyModule.h"
 
 #include "UEPyEngine.h"
 #include "UEPyTimer.h"
@@ -2081,6 +2081,28 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		return PyUnicode_FromString(TCHAR_TO_UTF8(*value.ToString()));
 	}
 
+	// DNE BEGIN (FCL)
+	if (auto casted_prop = Cast<USoftObjectProperty>(prop)) {
+		auto value = casted_prop->GetObjectPropertyValue_InContainer(buffer, index);
+		if (value)
+		{
+			Py_RETURN_UOBJECT(value);
+		}
+		else {	// If the object is not loaded, return a string with its path
+			FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
+
+			if (!asset.IsStale()) {
+				FString path = asset.ToString();
+				if (!path.IsEmpty()) {
+					return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
+				}
+			}
+		}
+
+		Py_RETURN_NONE;
+	}
+	// END DNE
+
 	if (auto casted_prop = Cast<UObjectPropertyBase>(prop))
 	{
 		auto value = casted_prop->GetObjectPropertyValue_InContainer(buffer, index);
@@ -2090,8 +2112,9 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		}
 		// DNE BEGIN (FCL)
 		else {	// If the object is not loaded, return a string with its path
-			FAssetPtr& asset = *(FAssetPtr*)buffer;
-			if (!asset.IsStale()) {
+			FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
+
+			if (asset.IsValid() && !asset.IsStale()) {
 				FString path = asset.ToString();
 				return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
 			}
