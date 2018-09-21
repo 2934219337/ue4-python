@@ -215,7 +215,11 @@ public class UnrealEnginePython : ModuleRules
                 pythonHome = DiscoverPythonPath(windowsKnownPaths, "Win64");
                 if (pythonHome == "")
                 {
-                    throw new System.Exception("Unable to find Python installation");
+                    //throw new System.Exception("Unable to find Python installation");
+                    // DNE (FC)
+                    System.Console.WriteLine("[WARNING] Unable to find Python installation");
+                    return;
+                    // END DNE
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -231,7 +235,11 @@ public class UnrealEnginePython : ModuleRules
                 pythonHome = DiscoverPythonPath(macKnownPaths, "Mac");
                 if (pythonHome == "")
                 {
-                    throw new System.Exception("Unable to find Python installation");
+                    //throw new System.Exception("Unable to find Python installation");
+                    // DNE (FC)
+                    System.Console.WriteLine("[WARNING] Unable to find Python installation");
+                    return;
+                    // END DNE
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -247,12 +255,20 @@ public class UnrealEnginePython : ModuleRules
                 string includesPath = DiscoverLinuxPythonIncludesPath();
                 if (includesPath == null)
                 {
-                    throw new System.Exception("Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
+                    //throw new System.Exception("Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
+                    // DNE (FC)
+                    System.Console.WriteLine("[WARNING] Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
+                    return;
+                    // END DNE
                 }
                 string libsPath = DiscoverLinuxPythonLibsPath();
                 if (libsPath == null)
                 {
-                    throw new System.Exception("Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
+                    //throw new System.Exception("Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
+                    // DNE (FC)
+                    System.Console.WriteLine("[WARNING] Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
+                    return;
+                    // END DNE
                 }
                 PublicIncludePaths.Add(includesPath);
                 PublicAdditionalLibraries.Add(libsPath);

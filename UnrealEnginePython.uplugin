@@ -10,7 +10,7 @@
 	"DocsURL": "",
 	"MarketplaceURL": "",
 	"SupportURL": "",
-	"EnabledByDefault": true,
+	"EnabledByDefault": false,
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"Installed": false,
@@ -18,22 +18,50 @@
     {
       "Name": "UnrealEnginePython",
       "Type": "Runtime",
-      "LoadingPhase": "Default"
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms":
+      [
+        "Win64",
+        "Win32",
+        "Linux",
+        "Mac"
+      ]
     },
     {
       "Name": "PythonAutomation",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault"
+      "LoadingPhase": "PostDefault",
+      "WhitelistPlatforms":
+      [
+        "Win64",
+        "Win32",
+        "Linux",
+        "Mac"
+      ]
     },
     {
       "Name": "PythonConsole",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault"
+      "LoadingPhase": "PostDefault",
+      "WhitelistPlatforms":
+      [
+        "Win64",
+        "Win32",
+        "Linux",
+        "Mac"
+      ]
     },
     {
       "Name": "PythonEditor",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault"
+      "LoadingPhase": "PostDefault",
+      "WhitelistPlatforms":
+      [
+        "Win64",
+        "Win32",
+        "Linux",
+        "Mac"
+      ]
     }
   ],
   "Plugins": [
