@@ -22,7 +22,7 @@ public class UnrealEnginePython : ModuleRules
         "C:/Program Files/Python36",
         "C:/Program Files/Python35",
         // DNE (FC)
-        "C:/Python27-64",
+        "C:/Python36",
         // END DNE
         "C:/Python27",
         "C:/IntelPython35"
