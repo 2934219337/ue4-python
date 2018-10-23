@@ -2112,11 +2112,13 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		}
 		// DNE BEGIN (FCL)
 		else {	// If the object is not loaded, return a string with its path
-			FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
+			if (casted_prop->ContainsWeakObjectReference()) {
+				FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
 
-			if (asset.IsValid() && !asset.IsStale()) {
-				FString path = asset.ToString();
-				return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
+				if (asset.IsValid() && !asset.IsStale()) {
+					FString path = asset.ToString();
+					return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
+				}
 			}
 		}
 		// END DNE
