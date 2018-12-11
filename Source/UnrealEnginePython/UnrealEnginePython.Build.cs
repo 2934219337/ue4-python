@@ -21,10 +21,7 @@ public class UnrealEnginePython : ModuleRules
         "C:/Program Files/Python37",
         "C:/Program Files/Python36",
         "C:/Program Files/Python35",
-        // DNE (FC)
-        "C:/Python36",
-        // END DNE
-        "C:/Python27",
+        //"C:/Python27",
         "C:/IntelPython35"
     };
 
@@ -202,9 +199,9 @@ public class UnrealEnginePython : ModuleRules
                 "PropertyEditor",
                 "LandscapeEditor",
                 "MaterialEditor",
-                // DNE (FC) 
+                // DNE BEGIN - FCL
                 "DNEEditor", 
-                // END DNE 
+                // DNE END
             });
         }
 
@@ -216,10 +213,10 @@ public class UnrealEnginePython : ModuleRules
                 if (pythonHome == "")
                 {
                     //throw new System.Exception("Unable to find Python installation");
-                    // DNE (FC)
+                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python installation");
                     return;
-                    // END DNE
+                    // DNE END - FCL
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -236,10 +233,10 @@ public class UnrealEnginePython : ModuleRules
                 if (pythonHome == "")
                 {
                     //throw new System.Exception("Unable to find Python installation");
-                    // DNE (FC)
+                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python installation");
                     return;
-                    // END DNE
+                    // DNE END
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -256,19 +253,19 @@ public class UnrealEnginePython : ModuleRules
                 if (includesPath == null)
                 {
                     //throw new System.Exception("Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
-                    // DNE (FC)
+                    // DNE BEGIN -FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
                     return;
-                    // END DNE
+                    // DNE END
                 }
                 string libsPath = DiscoverLinuxPythonLibsPath();
                 if (libsPath == null)
                 {
                     //throw new System.Exception("Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
-                    // DNE (FC)
+                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
                     return;
-                    // END DNE
+                    // DNE END
                 }
                 PublicIncludePaths.Add(includesPath);
                 PublicAdditionalLibraries.Add(libsPath);
