@@ -1,0 +1,3 @@
+[submodule "ue4-python-3rdparty"]
+	path = Binaries
+	url = git@git.dont-nod.com:ue4-python-3rdparty.git
