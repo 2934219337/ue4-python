@@ -121,7 +121,7 @@ void FUnrealEnginePythonModule::UESetupPythonInterpreter(bool verbose)
 	for (int32 i = 0; i < Args.Num(); i++)
 	{
 #if PY_MAJOR_VERSION >= 3
-		argv[i] = (wchar_t *)(*Args[i]);
+		argv[i] = (wchar_t *)(TCHAR_TO_WCHAR(*Args[i]));
 #else
 		argv[i] = TCHAR_TO_UTF8(*Args[i]);
 #endif
@@ -367,7 +367,11 @@ void FUnrealEnginePythonModule::StartupModule()
 
 		const int32 MaxPathVarLen = 32768;
 		FString OrigPathVar = FString::ChrN(MaxPathVarLen, TEXT('\0'));
+#if ENGINE_MINOR_VERSION >= 21
+		OrigPathVar = FPlatformMisc::GetEnvironmentVariable(TEXT("PATH"));
+#else
 		FPlatformMisc::GetEnvironmentVariable(TEXT("PATH"), OrigPathVar.GetCharArray().GetData(), MaxPathVarLen);
+#endif
 
 		// Get the current path and remove elements with python in them, we don't want any conflicts
 		const TCHAR* PathDelimiter = FPlatformMisc::GetPathVarDelimiter();
@@ -456,9 +460,9 @@ void FUnrealEnginePythonModule::StartupModule()
 	// Restore stdio state after Py_Initialize set it to O_BINARY, otherwise
 	// everything that the engine will output is going to be encoded in UTF-16.
 	// The behaviour is described here: https://bugs.python.org/issue16587
-	_setmode(fileno(stdin), O_TEXT);
-	_setmode(fileno(stdout), O_TEXT);
-	_setmode(fileno(stderr), O_TEXT);
+	_setmode(_fileno(stdin), O_TEXT);
+	_setmode(_fileno(stdout), O_TEXT);
+	_setmode(_fileno(stderr), O_TEXT);
 
 	// Also restore the user-requested UTF-8 flag if relevant (behaviour copied
 	// from LaunchEngineLoop.cpp).

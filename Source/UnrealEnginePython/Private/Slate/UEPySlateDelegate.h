@@ -54,6 +54,7 @@ public:
 #endif
 
 	void OnWindowClosed(const TSharedRef<SWindow> &Window);
+	void SubMenuPyBuilder(FMenuBuilder &Builder);
 
 	TSharedPtr<SWidget> OnContextMenuOpening();
 	TSharedRef<SWidget> OnGenerateWidget(TSharedPtr<FPythonItem> py_item);
