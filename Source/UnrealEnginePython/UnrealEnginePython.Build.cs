@@ -199,9 +199,7 @@ public class UnrealEnginePython : ModuleRules
                 "PropertyEditor",
                 "LandscapeEditor",
                 "MaterialEditor",
-                // DNE BEGIN - FCL
-                "DNEEditor", 
-                // DNE END
+                "DNEEditor",
             });
         }
 
@@ -213,10 +211,8 @@ public class UnrealEnginePython : ModuleRules
                 if (pythonHome == "")
                 {
                     //throw new System.Exception("Unable to find Python installation");
-                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python installation");
                     return;
-                    // DNE END - FCL
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -233,10 +229,8 @@ public class UnrealEnginePython : ModuleRules
                 if (pythonHome == "")
                 {
                     //throw new System.Exception("Unable to find Python installation");
-                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python installation");
                     return;
-                    // DNE END
                 }
             }
             System.Console.WriteLine("Using Python at: " + pythonHome);
@@ -253,19 +247,15 @@ public class UnrealEnginePython : ModuleRules
                 if (includesPath == null)
                 {
                     //throw new System.Exception("Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
-                    // DNE BEGIN -FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python includes, please add a search path to linuxKnownIncludesPaths");
                     return;
-                    // DNE END
                 }
                 string libsPath = DiscoverLinuxPythonLibsPath();
                 if (libsPath == null)
                 {
                     //throw new System.Exception("Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
-                    // DNE BEGIN - FCL
                     System.Console.WriteLine("[WARNING] Unable to find Python libs, please add a search path to linuxKnownLibsPaths");
                     return;
-                    // DNE END
                 }
                 PublicIncludePaths.Add(includesPath);
                 PublicAdditionalLibraries.Add(libsPath);

@@ -18,50 +18,22 @@
     {
       "Name": "UnrealEnginePython",
       "Type": "Editor",
-      "LoadingPhase": "Default",
-      "WhitelistPlatforms":
-      [
-        "Win64",
-        "Win32",
-        "Linux",
-        "Mac"
-      ]
+      "LoadingPhase": "Default"
     },
     {
       "Name": "PythonAutomation",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault",
-      "WhitelistPlatforms":
-      [
-        "Win64",
-        "Win32",
-        "Linux",
-        "Mac"
-      ]
+      "LoadingPhase": "PostDefault"
     },
     {
       "Name": "PythonConsole",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault",
-      "WhitelistPlatforms":
-      [
-        "Win64",
-        "Win32",
-        "Linux",
-        "Mac"
-      ]
+      "LoadingPhase": "PostDefault"
     },
     {
       "Name": "PythonEditor",
       "Type": "Editor",
-      "LoadingPhase": "PostDefault",
-      "WhitelistPlatforms":
-      [
-        "Win64",
-        "Win32",
-        "Linux",
-        "Mac"
-      ]
+      "LoadingPhase": "PostDefault"
     }
   ],
   "Plugins": [
