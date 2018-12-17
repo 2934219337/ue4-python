@@ -37,10 +37,7 @@
 #include "UObject/UEPyDataTable.h"
 #include "UObject/UEPyExporter.h"
 #include "UObject/UEPyFoliage.h"
-
-// DNE EDIT (FC)
 #include "UObject/UEPyDNEMetadata.h"
-// DNE EDIT END
 
 #include "UEPyAssetUserData.h"
 #if WITH_EDITOR
@@ -2100,28 +2097,6 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		return PyUnicode_FromString(TCHAR_TO_UTF8(*value.ToString()));
 	}
 
-	// DNE BEGIN (FCL)
-	if (auto casted_prop = Cast<USoftObjectProperty>(prop)) {
-		auto value = casted_prop->GetObjectPropertyValue_InContainer(buffer, index);
-		if (value)
-		{
-			Py_RETURN_UOBJECT(value);
-		}
-		else {	// If the object is not loaded, return a string with its path
-			FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
-
-			if (!asset.IsStale()) {
-				FString path = asset.ToString();
-				if (!path.IsEmpty()) {
-					return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
-				}
-			}
-		}
-
-		Py_RETURN_NONE;
-	}
-	// END DNE
-
 	if (auto casted_prop = Cast<UObjectPropertyBase>(prop))
 	{
 		auto value = casted_prop->GetObjectPropertyValue_InContainer(buffer, index);
@@ -2129,18 +2104,20 @@ PyObject *ue_py_convert_property(UProperty *prop, uint8 *buffer, int32 index)
 		{
 			Py_RETURN_UOBJECT(value);
 		}
-		// DNE BEGIN (FCL)
-		else {	// If the object is not loaded, return a string with its path
-			if (casted_prop->ContainsWeakObjectReference()) {
-				FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
+		else if (casted_prop->ContainsWeakObjectReference() || prop->IsA<USoftObjectProperty>())
+		{
+			// If the object is not loaded, return a string with its path
+			FSoftObjectPtr& asset = *(FSoftObjectPtr*)casted_prop->ContainerPtrToValuePtr<void>(buffer, index);
 
-				if (asset.IsValid() && !asset.IsStale()) {
-					FString path = asset.ToString();
+			if (asset.IsValid() && !asset.IsStale())
+			{
+				FString path = asset.ToString();
+				if (!path.IsEmpty())
+				{
 					return PyUnicode_FromString(TCHAR_TO_UTF8(*path));
 				}
 			}
 		}
-		// END DNE
 
 		Py_RETURN_NONE;
 	}
